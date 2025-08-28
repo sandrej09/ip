@@ -1,23 +1,28 @@
-public class Task {
-    private final String description;
-    private boolean isDone;
+public abstract class Task {
+    protected final String description;
+    protected boolean done;
 
     public Task(String description) {
         this.description = description;
-        this.isDone = false;
+        this.done = false;
     }
 
     public void mark() {
-        isDone = true;
+        done = true;
     }
 
     public void unmark() {
-        isDone = false;
+        done = false;
     }
+
+    protected String status() {
+        return done ? "X" : " ";
+    }
+
+    protected abstract String type();
 
     @Override
     public String toString() {
-        String status = isDone ? "[X]" : "[ ]";
-        return status + " " + description;
+        return "[" + type() + "][" + status() + "] " + description;
     }
 }

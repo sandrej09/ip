@@ -9,17 +9,15 @@ public abstract class Task {
         this.done = false;
     }
 
-    public void mark() {
-        done = true;
-    }
+    public void mark() { done = true; }
 
-    public void unmark() {
-        done = false;
-    }
+    public void unmark() { done = false; }
 
-    protected String status() {
-        return done ? "X" : " ";
-    }
+    protected String status() { return done ? "X" : " "; }
+
+    public boolean isDone() { return done; }
+
+    public String getDescription() { return description; }
 
     protected abstract String type();
 

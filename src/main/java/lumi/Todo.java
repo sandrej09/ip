@@ -1,12 +1,9 @@
 package lumi;
 
 public class Todo extends Task {
-    public Todo(String description) {
-        super(description);
-    }
+    public Todo(String description) { super(description); }
+
 
     @Override
-    protected String type() {
-        return "T";
-    }
+    protected String type() { return "T"; }
 }

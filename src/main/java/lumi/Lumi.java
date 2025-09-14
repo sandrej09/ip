@@ -20,102 +20,76 @@ public class Lumi {
             String input = sc.nextLine().trim();
             if (input.isEmpty()) continue;
 
-            if (input.equals("bye")) {
-                System.out.println("Bye. Hope to see you again soon!");
-                break;
+            try {
+                if (input.equals("bye")) {
+                    System.out.println("Bye. Hope to see you again soon!");
+                    break;
 
-            } else if (input.equals("list")) {
-                System.out.println("Here are the tasks in your list:");
-                for (int i = 0; i < count; i++) {
-                    System.out.println((i + 1) + "." + tasks[i]);
-                }
+                } else if (input.equals("list")) {
+                    System.out.println("Here are the tasks in your list:");
+                    for (int i = 0; i < count; i++) {
+                        System.out.println((i + 1) + "." + tasks[i]);
+                    }
 
-            } else if (input.startsWith("mark ")) {
-                int idx = parseIndex(input.substring(5), count);
-                if (idx == -1) {
-                    System.out.println("OOPS!!! Invalid task number.");
-                    continue;
-                }
-                tasks[idx].mark();
-                System.out.println("Nice! I've marked this task as done:");
-                System.out.println("  " + tasks[idx]);
+                } else if (input.startsWith("mark ")) {
+                    int idx = parseIndex(input.substring(5), count);
+                    if (idx == -1) throw new IllegalArgumentException("OOPS!!! Invalid task number.");
+                    tasks[idx].mark();
+                    System.out.println("Nice! I've marked this task as done:");
+                    System.out.println("  " + tasks[idx]);
 
-            } else if (input.startsWith("unmark ")) {
-                int idx = parseIndex(input.substring(7), count);
-                if (idx == -1) {
-                    System.out.println("OOPS!!! Invalid task number.");
-                    continue;
-                }
-                tasks[idx].unmark();
-                System.out.println("OK, I've marked this task as not done yet:");
-                System.out.println("  " + tasks[idx]);
+                } else if (input.startsWith("unmark ")) {
+                    int idx = parseIndex(input.substring(7), count);
+                    if (idx == -1) throw new IllegalArgumentException("OOPS!!! Invalid task number.");
+                    tasks[idx].unmark();
+                    System.out.println("OK, I've marked this task as not done yet:");
+                    System.out.println("  " + tasks[idx]);
 
-            } else if (input.startsWith("todo")) {
-                String desc = input.length() > 5 ? input.substring(5).trim() : "";
-                if (desc.isEmpty()) {
-                    System.out.println("OOPS!!! The description of a todo cannot be empty.");
-                    continue;
-                }
-                if (count >= tasks.length) {
-                    System.out.println("OOPS!!! Task list is full.");
-                    continue;
-                }
-                Task t = new Todo(desc);
-                tasks[count++] = t;
-                System.out.println("Got it. I've added this task:");
-                System.out.println("  " + t);
-                System.out.println("Now you have " + count + " tasks in the list.");
+                } else if (input.startsWith("todo")) {
+                    String desc = input.length() > 5 ? input.substring(5).trim() : "";
+                    if (desc.isEmpty()) throw new IllegalArgumentException("OOPS!!! The description of a todo cannot be empty.");
+                    if (count >= tasks.length) throw new IllegalArgumentException("OOPS!!! Task list is full.");
+                    Task t = new Todo(desc);
+                    tasks[count++] = t;
+                    System.out.println("Got it. I've added this task:");
+                    System.out.println("  " + t);
+                    System.out.println("Now you have " + count + " tasks in the list.");
 
-            } else if (input.startsWith("deadline ")) {
-                String rest = input.substring(9).trim();
-                int p = rest.indexOf("/by");
-                if (p == -1) {
-                    System.out.println("Use: deadline <desc> /by <time>");
-                    continue;
-                }
-                String desc = rest.substring(0, p).trim();
-                String by = rest.substring(p + 3).trim();
-                if (desc.isEmpty() || by.isEmpty()) {
-                    System.out.println("Use: deadline <desc> /by <time>");
-                    continue;
-                }
-                if (count >= tasks.length) {
-                    System.out.println("OOPS!!! Task list is full.");
-                    continue;
-                }
-                Task t = new Deadline(desc, by);
-                tasks[count++] = t;
-                System.out.println("Got it. I've added this task:");
-                System.out.println("  " + t);
-                System.out.println("Now you have " + count + " tasks in the list.");
+                } else if (input.startsWith("deadline ")) {
+                    String rest = input.substring(9).trim();
+                    int p = rest.indexOf(TAG_BY);
+                    if (p == -1) throw new IllegalArgumentException("Use: deadline <desc> /by <time>");
+                    String desc = rest.substring(0, p).trim();
+                    String by = rest.substring(p + TAG_BY.length()).trim();
+                    if (desc.isEmpty() || by.isEmpty()) throw new IllegalArgumentException("Use: deadline <desc> /by <time>");
+                    if (count >= tasks.length) throw new IllegalArgumentException("OOPS!!! Task list is full.");
+                    Task t = new Deadline(desc, by);
+                    tasks[count++] = t;
+                    System.out.println("Got it. I've added this task:");
+                    System.out.println("  " + t);
+                    System.out.println("Now you have " + count + " tasks in the list.");
 
-            } else if (input.startsWith("event ")) {
-                String rest = input.substring(6).trim();
-                int pf = rest.indexOf("/from");
-                int pt = rest.indexOf("/to");
-                if (pf == -1 || pt == -1 || pt < pf) {
-                    System.out.println("Use: event <desc> /from <start> /to <end>");
-                    continue;
-                }
-                String desc = rest.substring(0, pf).trim();
-                String from = rest.substring(pf + 5, pt).trim();
-                String to = rest.substring(pt + 3).trim();
-                if (desc.isEmpty() || from.isEmpty() || to.isEmpty()) {
-                    System.out.println("Use: event <desc> /from <start> /to <end>");
-                    continue;
-                }
-                if (count >= tasks.length) {
-                    System.out.println("OOPS!!! Task list is full.");
-                    continue;
-                }
-                Task t = new Event(desc, from, to);
-                tasks[count++] = t;
-                System.out.println("Got it. I've added this task:");
-                System.out.println("  " + t);
-                System.out.println("Now you have " + count + " tasks in the list.");
+                } else if (input.startsWith("event ")) {
+                    String rest = input.substring(6).trim();
+                    int pf = rest.indexOf(TAG_FROM);
+                    int pt = rest.indexOf(TAG_TO);
+                    if (pf == -1 || pt == -1 || pt < pf) throw new IllegalArgumentException("Use: event <desc> /from <start> /to <end>");
+                    String desc = rest.substring(0, pf).trim();
+                    String from = rest.substring(pf + TAG_FROM.length(), pt).trim();
+                    String to = rest.substring(pt + TAG_TO.length()).trim();
+                    if (desc.isEmpty() || from.isEmpty() || to.isEmpty()) throw new IllegalArgumentException("Use: event <desc> /from <start> /to <end>");
+                    if (count >= tasks.length) throw new IllegalArgumentException("OOPS!!! Task list is full.");
+                    Task t = new Event(desc, from, to);
+                    tasks[count++] = t;
+                    System.out.println("Got it. I've added this task:");
+                    System.out.println("  " + t);
+                    System.out.println("Now you have " + count + " tasks in the list.");
 
-            } else {
-                System.out.println("OOPS!!! I'm sorry, but I don't know what that means :-(");
+                } else {
+                    throw new IllegalArgumentException("OOPS!!! I'm sorry, but I don't know what that means :-(");
+                }
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
             }
         }
     }

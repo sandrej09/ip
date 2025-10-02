@@ -27,7 +27,7 @@ public class Lumi {
     }
 
     public static void main(String[] args) {
-        new Lumi("data", "duke.txt").run();
+        new Lumi("data", "lumi.txt").run();
     }
 
     /**

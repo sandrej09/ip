@@ -74,11 +74,12 @@ Output: program ends.
 ## Data File
 Tasks are saved automatically in file: ./data/duke.txt
 
+<pre>
 Example file content:
 T | 1 | read book
 D | 0 | return book | 2025-10-03
 E | 0 | project meeting | Mon 2pm | 4pm
----
+</pre>
 ---
 
 - `T` = Todo task

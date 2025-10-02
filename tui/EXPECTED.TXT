@@ -1,0 +1,23 @@
+Hello! I'm Lumi
+What can I do for you?
+Got it. I've added this task:
+  [T][ ] read book
+Now you have 1 tasks in the list.
+Got it. I've added this task:
+  [D][ ] submit report (by: paü 5 2025)
+Now you have 2 tasks in the list.
+Got it. I've added this task:
+  [E][ ] project meeting (from: 2025-10-03 to: 2025-10-04)
+Now you have 3 tasks in the list.
+Here are the tasks in your list:
+1.[T][ ] read book
+2.[D][ ] submit report (by: paü 5 2025)
+3.[E][ ] project meeting (from: 2025-10-03 to: 2025-10-04)
+Nice! I've marked this task as done:
+  [T][X] read book
+OK, I've marked this task as not done yet:
+  [T][ ] read book
+Noted. I've removed this task:
+  [D][ ] submit report (by: paü 5 2025)
+Now you have 2 tasks in the list.
+Bye. Hope to see you again soon!
